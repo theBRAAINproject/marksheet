@@ -114,11 +114,14 @@ rating_values = [5, 4, 3, 2, 1, 0]
 rating_labels = [f"{val} - {row[col][:50]}..." if len(row[col]) > 50 else f"{val} - {row[col]}" 
                  for val, col in zip(rating_values, rating_columns)]
 
+stored_rating = st.session_state.responses[metric]["rating"]
+rating_index = rating_values.index(stored_rating) if stored_rating in rating_values else None
+
 rating = st.selectbox(
     "Select rating",
     options=rating_values,
     format_func=lambda x: rating_labels[rating_values.index(x)],
-    index=None,
+    index=rating_index,
     placeholder="Choose a rating..."
 )
 
