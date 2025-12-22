@@ -176,7 +176,7 @@ with col1:
 with col2:
     st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
 with col3:
-    save_clicked = st.button("💾 Save Evaluation", disabled=save_disabled, type="primary")
+    save_clicked = st.button("💾 Create Evaluation log file", disabled=save_disabled, type="primary")
 
 # -----------------------------
 # Save JSON
@@ -204,7 +204,7 @@ if st.session_state.index == len(protocol) - 1:
         filename = f"outputs/{'_'.join(filename_parts)}.json"
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2)
-        st.success(f"Saved to {filename}")
+        st.success(f"File created: {filename}")
         st.download_button(
             "Download JSON",
             data=json.dumps(output, indent=2),
