@@ -32,6 +32,12 @@ protocol = load_protocol()
 # -----------------------------
 if "index" not in st.session_state:
     st.session_state.index = 0
+if "grader_name" not in st.session_state:
+    st.session_state.grader_name = ""
+if "document_name" not in st.session_state:
+    st.session_state.document_name = ""
+if "started" not in st.session_state:
+    st.session_state.started = False
 
 if "responses" not in st.session_state:
     st.session_state.responses = {
@@ -59,8 +65,17 @@ def prev_metric():
 # -----------------------------
 # UI
 # -----------------------------
-# st.title("University Generative AI Policy Grading Tool")
-# st.sidebar.caption("5-point grading protocol loaded from GradingProtocol-5point.xlsx")
+if not st.session_state.started:
+    st.title("Grading Setup")
+    st.session_state.grader_name = st.text_input("Grader name", value=st.session_state.grader_name)
+    st.session_state.document_name = st.text_input("Document name", value=st.session_state.document_name)
+    start_disabled = not (
+        st.session_state.grader_name.strip() and st.session_state.document_name.strip()
+    )
+    if st.button("Start grading", disabled=start_disabled, type="primary"):
+        st.session_state.index = 0
+        st.session_state.started = True
+    st.stop()
 
 row = protocol.iloc[st.session_state.index]
 metric = row.Metric
@@ -73,7 +88,7 @@ st.markdown(row["Metric Defination"])
 # with st.expander("Rating guidance (0–5)", expanded=False):
 guidance_data = {
     # "Rating": ["5", "4", "3", "2", "1", "0"],
-    "Rating": ["Rating 5", "Rating 4", "Rating 3", "Rating 2", "Rating 1", "Rating 0"],
+    "Rating": ["Rating 5 (max positive)", "Rating 4", "Rating 3", "Rating 2", "Rating 1", "Rating 0 (N/A or absent)"],
     "Description": [
         row["Rating 5 (max positive)"],
         row["Rating 4"],
@@ -156,11 +171,12 @@ if st.session_state.index == len(protocol) - 1:
         output = {
             "metadata": {
                 "date": datetime.utcnow().isoformat(),
-                "protocol": "GradingProtocol-5point.xlsx"
+                "protocol": "GradingProtocol-5point.xlsx",
+                "grader_name": st.session_state.grader_name,
+                "document_name": st.session_state.document_name,
             },
             "results": st.session_state.responses
         }
-
         st.download_button(
             "Download JSON",
             data=json.dumps(output, indent=2),
