@@ -133,11 +133,19 @@ st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence
 st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
 
 # Navigation
+selected_rating = st.session_state.responses[metric]["rating"]
+evidence_text = (st.session_state.responses[metric]["evidence"] or "").strip()
+next_disabled = (
+    st.session_state.index == len(protocol) - 1
+    or selected_rating is None
+    or evidence_text == ""
+)
+
 col1, col2, col3 = st.columns([1, 4, 2])
 with col1:
     st.button("⬅ Back", on_click=prev_metric, disabled=st.session_state.index == 0)
 with col2:
-    st.button("Next ➡", on_click=next_metric, disabled=st.session_state.index == len(protocol) - 1)
+    st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
 
 # -----------------------------
 # Save JSON
