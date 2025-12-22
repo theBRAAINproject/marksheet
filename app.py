@@ -70,7 +70,7 @@ def prev_metric():
 # -----------------------------
 if not st.session_state.started:
     st.title("Grading Setup")
-    st.session_state.grader_name = st.text_input("Grader name", value=st.session_state.grader_name)
+    st.session_state.grader_name = st.text_input("Grader's initials", value=st.session_state.grader_name)
     st.session_state.document_name = st.text_input("Document name", value=st.session_state.document_name)
     st.session_state.tag = st.text_input("Tag (optional)", value=st.session_state.tag)
     start_disabled = not (
