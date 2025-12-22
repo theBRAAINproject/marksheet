@@ -182,7 +182,9 @@ if st.session_state.index == len(protocol) - 1:
             "results": st.session_state.responses
         }
         os.makedirs("outputs", exist_ok=True)
-        filename = f"outputs/genai_policy_grading_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.json"
+        safe = lambda s: ("".join(ch if ch.isalnum() else "_" for ch in s.strip())) or "unnamed"
+        timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+        filename = f"outputs/{safe(st.session_state.grader_name)}_{safe(st.session_state.document_name)}_{timestamp}.json"
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2)
         st.success(f"Saved to {filename}")
