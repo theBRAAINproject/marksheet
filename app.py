@@ -208,7 +208,7 @@ if st.session_state.index == len(protocol) - 1:
         st.download_button(
             "Download JSON",
             data=json.dumps(output, indent=2),
-            file_name="genai_policy_grading.json",
+            file_name=filename,
             mime="application/json"
         )
 
