@@ -59,43 +59,58 @@ def prev_metric():
 # -----------------------------
 # UI
 # -----------------------------
-st.title("University Generative AI Policy Grading Tool")
-st.caption("5-point grading protocol loaded from GradingProtocol-5point.xlsx")
+# st.title("University Generative AI Policy Grading Tool")
+# st.sidebar.caption("5-point grading protocol loaded from GradingProtocol-5point.xlsx")
 
 row = protocol.iloc[st.session_state.index]
 metric = row.Metric
+st.subheader(f"Metric {st.session_state.index + 1} of {len(protocol)}: {metric}")
 
-st.subheader(f"Metric {st.session_state.index + 1} of {len(protocol)}")
-st.markdown(f"### {metric}")
 
 with st.expander("Metric definition", expanded=True):
     st.markdown(row["Metric Defination"])
 
 with st.expander("Rating guidance (0–5)", expanded=False):
-    st.markdown("**5 — Exemplary / max positive**")
-    st.markdown(row["Rating 5 (max positive)"])
-    st.markdown("**4 — Strong**")
-    st.markdown(row["Rating 4"])
-    st.markdown("**3 — Adequate**")
-    st.markdown(row["Rating 3"])
-    st.markdown("**2 — Weak**")
-    st.markdown(row["Rating 2"])
-    st.markdown("**1 — Problematic**")
-    st.markdown(row["Rating 1"])
-    st.markdown("**0 — N/A or Absent**")
-    st.markdown(row["Rating 0 (N/A or absent)"])
+    guidance_data = {
+        "Rating": ["5", "4", "3", "2", "1", "0"],
+        "Label": ["Rating 5", "Rating 4", "Rating 3", "Rating 2", "Rating 1", "Rating 0"],
+        "Description": [
+            row["Rating 5 (max positive)"],
+            row["Rating 4"],
+            row["Rating 3"],
+            row["Rating 2"],
+            row["Rating 1"],
+            row["Rating 0 (N/A or absent)"]
+        ]
+    }
+    guidance_df = pd.DataFrame(guidance_data)
+    st.dataframe(guidance_df, use_container_width=True, hide_index=True)
 
 # Rating selector
-rating_options = [5, 4, 3, 2, 1, 0]
+rating_columns = [
+    "Rating 5 (max positive)",
+    "Rating 4",
+    "Rating 3",
+    "Rating 2",
+    "Rating 1",
+    "Rating 0 (N/A or absent)"
+]
+rating_values = [5, 4, 3, 2, 1, 0]
+rating_labels = [f"{val} - {row[col][:50]}..." if len(row[col]) > 50 else f"{val} - {row[col]}" 
+                 for val, col in zip(rating_values, rating_columns)]
 
-rating = st.radio(
+rating = st.selectbox(
     "Select rating",
-    rating_options,
-    index=(rating_options.index(st.session_state.responses[metric]["rating"])
-           if st.session_state.responses[metric]["rating"] is not None else 0)
+    options=rating_values,
+    format_func=lambda x: rating_labels[rating_values.index(x)],
+    index=None,
+    placeholder="Choose a rating..."
 )
 
-st.session_state.responses[metric]["rating"] = rating
+if rating is not None:
+    st.session_state.responses[metric]["rating"] = rating
+else:
+    st.session_state.responses[metric]["rating"] = None
 
 # Evidence text
 st.text_area(
@@ -118,7 +133,7 @@ st.text_area(
 st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
 
 # Navigation
-col1, col2, col3 = st.columns([1, 1, 2])
+col1, col2, col3 = st.columns([1, 4, 2])
 with col1:
     st.button("⬅ Back", on_click=prev_metric, disabled=st.session_state.index == 0)
 with col2:
