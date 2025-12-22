@@ -185,7 +185,7 @@ if st.session_state.index == len(protocol) - 1:
         filename = f"outputs/genai_policy_grading_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.json"
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2)
-
+        st.success(f"Saved to {filename}")
         st.download_button(
             "Download JSON",
             data=json.dumps(output, indent=2),
