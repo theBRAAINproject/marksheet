@@ -67,24 +67,24 @@ metric = row.Metric
 st.subheader(f"Metric {st.session_state.index + 1} of {len(protocol)}: {metric}")
 
 
-with st.expander("Metric definition", expanded=True):
-    st.markdown(row["Metric Defination"])
+# with st.expander("Metric definition", expanded=True):
+st.markdown(row["Metric Defination"])
 
-with st.expander("Rating guidance (0–5)", expanded=False):
-    guidance_data = {
-        "Rating": ["5", "4", "3", "2", "1", "0"],
-        "Label": ["Rating 5", "Rating 4", "Rating 3", "Rating 2", "Rating 1", "Rating 0"],
-        "Description": [
-            row["Rating 5 (max positive)"],
-            row["Rating 4"],
-            row["Rating 3"],
-            row["Rating 2"],
-            row["Rating 1"],
-            row["Rating 0 (N/A or absent)"]
-        ]
-    }
-    guidance_df = pd.DataFrame(guidance_data)
-    st.dataframe(guidance_df, use_container_width=True, hide_index=True)
+# with st.expander("Rating guidance (0–5)", expanded=False):
+guidance_data = {
+    # "Rating": ["5", "4", "3", "2", "1", "0"],
+    "Rating": ["Rating 5", "Rating 4", "Rating 3", "Rating 2", "Rating 1", "Rating 0"],
+    "Description": [
+        row["Rating 5 (max positive)"],
+        row["Rating 4"],
+        row["Rating 3"],
+        row["Rating 2"],
+        row["Rating 1"],
+        row["Rating 0 (N/A or absent)"]
+    ]
+}
+guidance_df = pd.DataFrame(guidance_data)
+st.dataframe(guidance_df, use_container_width=True, hide_index=True)
 
 # Rating selector
 rating_columns = [
@@ -123,12 +123,12 @@ st.text_area(
 st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence_{metric}", "")
 
 # Notes
-st.text_area(
-    "Evaluator notes / justification",
-    key=f"notes_{metric}",
-    value=st.session_state.responses[metric]["notes"],
-    height=110
-)
+# st.text_area(
+#     "Evaluator notes / justification",
+#     key=f"notes_{metric}",
+#     value=st.session_state.responses[metric]["notes"],
+#     height=110
+# )
 
 st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
 
