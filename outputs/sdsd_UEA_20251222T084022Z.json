@@ -1,60 +1,60 @@
 {
   "metadata": {
-    "date": "2025-12-22T08:19:46.770338",
+    "date": "2025-12-22T08:40:22.497877",
     "protocol": "GradingProtocol-5point.xlsx",
-    "grader_name": "dfsdfd",
-    "document_name": "dfdsfdsfsf",
-    "tag": "dsfsdfdsf"
+    "grader_name": "sdsd",
+    "document_name": "sdsd",
+    "tag": "sdsd"
   },
   "results": {
     "Definition and Examples": {
-      "rating": 1,
-      "evidence": "fsdfsf",
+      "rating": 0,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Permited Use": {
-      "rating": 2,
-      "evidence": "fssdfdf",
+      "rating": 4,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Prohibited Use": {
-      "rating": 2,
-      "evidence": "dfsdfdf",
+      "rating": 3,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Academic Integrity": {
       "rating": 1,
-      "evidence": "sdfsdff",
+      "evidence": "sdsd",
       "notes": ""
     },
     "Transparency": {
       "rating": 2,
-      "evidence": "dff",
+      "evidence": "sdsd",
       "notes": ""
     },
     "Accountability": {
-      "rating": 1,
-      "evidence": "dfdfdf",
+      "rating": 2,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Risks": {
       "rating": 1,
-      "evidence": "dfdfdfsfsdf",
+      "evidence": "sdsd",
       "notes": ""
     },
     "Copyright and Data Privacy ": {
-      "rating": 3,
-      "evidence": "sdfdf",
+      "rating": 4,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Training and Resources": {
       "rating": 3,
-      "evidence": "sdfdf",
+      "evidence": "sdd",
       "notes": ""
     },
     "Policy Review": {
-      "rating": 1,
-      "evidence": "dfsdfdfwfv  sdff. dsf ",
+      "rating": 3,
+      "evidence": "sdsdd",
       "notes": ""
     }
   }

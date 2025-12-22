@@ -1,60 +1,60 @@
 {
   "metadata": {
-    "date": "2025-12-22T08:18:01.834130",
+    "date": "2025-12-22T08:40:15.523180",
     "protocol": "GradingProtocol-5point.xlsx",
-    "grader_name": "V KJ sdsd",
-    "document_name": "sdsds",
-    "tag": "pilot"
+    "grader_name": "sdsd",
+    "document_name": "sdsd",
+    "tag": "sdsd"
   },
   "results": {
     "Definition and Examples": {
-      "rating": 4,
-      "evidence": "zdsd",
+      "rating": 0,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Permited Use": {
-      "rating": 2,
-      "evidence": "dsadsasdsd",
+      "rating": 4,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Prohibited Use": {
       "rating": 3,
-      "evidence": "sdd\n",
+      "evidence": "sdsd",
       "notes": ""
     },
     "Academic Integrity": {
-      "rating": 3,
+      "rating": 1,
       "evidence": "sdsd",
       "notes": ""
     },
     "Transparency": {
-      "rating": 1,
-      "evidence": "sdsdsd",
+      "rating": 2,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Accountability": {
-      "rating": 4,
-      "evidence": "sas",
+      "rating": 2,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Risks": {
-      "rating": 4,
-      "evidence": "dssf\n",
+      "rating": 1,
+      "evidence": "sdsd",
       "notes": ""
     },
     "Copyright and Data Privacy ": {
       "rating": 4,
-      "evidence": "sdsd\nsdsd\n",
+      "evidence": "sdsd",
       "notes": ""
     },
     "Training and Resources": {
       "rating": 3,
-      "evidence": "sdsd",
+      "evidence": "sdd",
       "notes": ""
     },
     "Policy Review": {
-      "rating": 2,
-      "evidence": "sdsd",
+      "rating": 3,
+      "evidence": "sdsdd",
       "notes": ""
     }
   }
