@@ -18,11 +18,13 @@ def load_protocol():
         "Rating 3",
         "Rating 2",
         "Rating 1",
-        "Rating 0, (N/A or absent)"
+        "Rating 0 (N/A or absent)"
     ]]
     df = df.dropna(subset=["Metric"])
     return df
 
+
+# Metric	Metric Defination		Rating 5 (max positive)	Rating 4	Rating 3	Rating 2	Rating 1	
 protocol = load_protocol()
 
 # -----------------------------
