@@ -9,7 +9,7 @@ from datetime import datetime
 @st.cache_data
 
 def load_protocol():
-    df = pd.read_excel("GradingProtocol-5point.xlsx")
+    df = pd.read_excel("data/GradingProtocol-5point.xlsx")
     df = df[[
         "Metric",
         "Metric Defination",
