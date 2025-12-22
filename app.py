@@ -162,19 +162,27 @@ next_disabled = (
     or selected_rating is None
     or evidence_text == ""
 )
+save_disabled = (
+    st.session_state.index != len(protocol) - 1
+    or selected_rating is None
+    or evidence_text == ""
+)
+save_clicked = False
 
 col1, col2, col3 = st.columns([1, 4, 2])
 with col1:
     st.button("⬅ Back", on_click=prev_metric, disabled=st.session_state.index == 0)
 with col2:
     st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
+with col3:
+    save_clicked = st.button("💾 Save Evaluation", disabled=save_disabled, type="primary")
 
 # -----------------------------
 # Save JSON
 # -----------------------------
 if st.session_state.index == len(protocol) - 1:
     st.markdown("---")
-    if st.button("💾 Save Evaluation"):
+    if save_clicked:
         output = {
             "metadata": {
                 "date": datetime.utcnow().isoformat(),
