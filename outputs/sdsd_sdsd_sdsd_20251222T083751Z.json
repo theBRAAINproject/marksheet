@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "date": "2025-12-22T08:37:51.573094",
+    "protocol": "GradingProtocol-5point.xlsx",
+    "grader_name": "sdsd",
+    "document_name": "sdsd",
+    "tag": "sdsd"
+  },
+  "results": {
+    "Definition and Examples": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Permited Use": {
+      "rating": 4,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Prohibited Use": {
+      "rating": 3,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Academic Integrity": {
+      "rating": 1,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Transparency": {
+      "rating": 2,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Accountability": {
+      "rating": 2,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Risks": {
+      "rating": 1,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Copyright and Data Privacy ": {
+      "rating": 4,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Training and Resources": {
+      "rating": 3,
+      "evidence": "sdd",
+      "notes": ""
+    },
+    "Policy Review": {
+      "rating": 3,
+      "evidence": "sdsdd",
+      "notes": ""
+    }
+  }
+}
