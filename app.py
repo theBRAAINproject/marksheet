@@ -126,7 +126,8 @@ rating = st.selectbox(
     options=rating_values,
     format_func=lambda x: rating_labels[rating_values.index(x)],
     index=rating_index,
-    placeholder="Choose a rating..."
+    placeholder="Choose a rating...",
+    key=f"rating_{metric}"  # ensure widget state is per-metric and resettable
 )
 
 if rating is not None:
@@ -210,3 +211,25 @@ if st.session_state.index == len(protocol) - 1:
             file_name="genai_policy_grading.json",
             mime="application/json"
         )
+
+
+#restart evaluation
+st.markdown("---")
+with st.expander("Session controls", expanded=False):
+    if st.button("🔄 Restart Evaluation"):
+        # clear widget states for metric-bound inputs
+        for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
+            del st.session_state[k]
+        # reset responses to pristine state
+        st.session_state.responses = {
+            row.Metric: {"rating": None, "evidence": "", "notes": ""}
+            for _, row in protocol.iterrows()
+        }
+        # reset metadata and navigation
+        st.session_state.grader_name = ""
+        st.session_state.document_name = ""
+        st.session_state.tag = ""
+        st.session_state.index = 0
+        st.session_state.started = False
+        st.success("Session reset.")
+        st.rerun()
