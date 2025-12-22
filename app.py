@@ -37,6 +37,8 @@ if "grader_name" not in st.session_state:
     st.session_state.grader_name = ""
 if "document_name" not in st.session_state:
     st.session_state.document_name = ""
+if "tag" not in st.session_state:
+    st.session_state.tag = ""
 if "started" not in st.session_state:
     st.session_state.started = False
 
@@ -70,6 +72,7 @@ if not st.session_state.started:
     st.title("Grading Setup")
     st.session_state.grader_name = st.text_input("Grader name", value=st.session_state.grader_name)
     st.session_state.document_name = st.text_input("Document name", value=st.session_state.document_name)
+    st.session_state.tag = st.text_input("Tag (optional)", value=st.session_state.tag)
     start_disabled = not (
         st.session_state.grader_name.strip() and st.session_state.document_name.strip()
     )
@@ -178,13 +181,18 @@ if st.session_state.index == len(protocol) - 1:
                 "protocol": "GradingProtocol-5point.xlsx",
                 "grader_name": st.session_state.grader_name,
                 "document_name": st.session_state.document_name,
+                "tag": st.session_state.tag or None,
             },
             "results": st.session_state.responses
         }
         os.makedirs("outputs", exist_ok=True)
         safe = lambda s: ("".join(ch if ch.isalnum() else "_" for ch in s.strip())) or "unnamed"
         timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
-        filename = f"outputs/{safe(st.session_state.grader_name)}_{safe(st.session_state.document_name)}_{timestamp}.json"
+        filename_parts = []
+        if st.session_state.tag.strip():
+            filename_parts.append(safe(st.session_state.tag))
+        filename_parts.extend([safe(st.session_state.grader_name), safe(st.session_state.document_name), timestamp])
+        filename = f"outputs/{'_'.join(filename_parts)}.json"
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(output, f, indent=2)
         st.success(f"Saved to {filename}")
