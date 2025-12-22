@@ -1,0 +1,158 @@
+{
+  "metadata": {
+    "date": "2025-12-22T14:27:32.088212",
+    "protocols": [
+      "GradingProtocol-2point.xlsx",
+      "GradingProtocol-5point.xlsx"
+    ],
+    "grader_name": "SD",
+    "document_name": "policy1",
+    "tag": "cambridge"
+  },
+  "results": {
+    "2-point": {
+      "Relevance": {
+        "rating": 0,
+        "evidence": "sdsd \n",
+        "notes": ""
+      },
+      "Stakeholder Coverage 1": {
+        "rating": 0,
+        "evidence": "sdsd ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 2": {
+        "rating": 0,
+        "evidence": "sdsd ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 3": {
+        "rating": 0,
+        "evidence": "sdsd sds",
+        "notes": ""
+      },
+      "Understandability 1": {
+        "rating": 0,
+        "evidence": "sdsd. sds",
+        "notes": ""
+      },
+      "Understandability 2": {
+        "rating": 0,
+        "evidence": "dsdsd sdsd ",
+        "notes": ""
+      },
+      "Understandability 3": {
+        "rating": 0,
+        "evidence": "dsd wdsds  ",
+        "notes": ""
+      },
+      "Actionability 1": {
+        "rating": 0,
+        "evidence": "sds sdsd  ",
+        "notes": ""
+      },
+      "Actionability 2": {
+        "rating": 0,
+        "evidence": "sds sdsd s d ",
+        "notes": ""
+      },
+      "Actionability 3": {
+        "rating": 0,
+        "evidence": "sds sdsd. ",
+        "notes": ""
+      }
+    },
+    "5-point": {
+      "Relevance": {
+        "rating": 0,
+        "evidence": "sdsd \n",
+        "notes": ""
+      },
+      "Stakeholder Coverage 1": {
+        "rating": 0,
+        "evidence": "sdsd ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 2": {
+        "rating": 0,
+        "evidence": "sdsd ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 3": {
+        "rating": 0,
+        "evidence": "sdsd sds",
+        "notes": ""
+      },
+      "Understandability 1": {
+        "rating": 0,
+        "evidence": "sdsd. sds",
+        "notes": ""
+      },
+      "Understandability 2": {
+        "rating": 0,
+        "evidence": "dsdsd sdsd ",
+        "notes": ""
+      },
+      "Understandability 3": {
+        "rating": 0,
+        "evidence": "dsd wdsds  ",
+        "notes": ""
+      },
+      "Actionability 1": {
+        "rating": 0,
+        "evidence": "sds sdsd  ",
+        "notes": ""
+      },
+      "Actionability 2": {
+        "rating": 0,
+        "evidence": "sds sdsd s d ",
+        "notes": ""
+      },
+      "Actionability 3": {
+        "rating": 0,
+        "evidence": "sds sdsd. ",
+        "notes": ""
+      },
+      "Permited Use": {
+        "rating": 0,
+        "evidence": "sdsd sad",
+        "notes": ""
+      },
+      "Prohibited Use": {
+        "rating": 1,
+        "evidence": "sdsd dasds  ",
+        "notes": ""
+      },
+      "Academic Integrity": {
+        "rating": 4,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Transparency": {
+        "rating": 3,
+        "evidence": "sdd ",
+        "notes": ""
+      },
+      "Accountability": {
+        "rating": 5,
+        "evidence": "sdsd.  ",
+        "notes": ""
+      },
+      "Risks": {
+        "rating": 3,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Copyright and Data Privacy": {
+        "rating": 3,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Training and Resources": {
+        "rating": 1,
+        "evidence": "sdsd  ",
+        "notes": ""
+      }
+    }
+  }
+}

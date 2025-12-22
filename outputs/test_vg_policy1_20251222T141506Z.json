@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "date": "2025-12-22T14:15:06.945157",
+    "protocols": [
+      "GradingProtocol-2point.xlsx",
+      "GradingProtocol-5point.xlsx"
+    ],
+    "grader_name": "vg",
+    "document_name": "policy1",
+    "tag": "test"
+  },
+  "results": {
+    "2-point": {
+      "Relevance": {
+        "rating": 1,
+        "evidence": " fdf",
+        "notes": ""
+      },
+      "Stakeholder Coverage 1": {
+        "rating": 0,
+        "evidence": "sdsd",
+        "notes": ""
+      },
+      "Stakeholder Coverage 2": {
+        "rating": 1,
+        "evidence": "5.2 Staff Practice\n5.2.1 There are a number of \u2018green light\u2019 approaches which can be used by staff. These\nhave been grouped as design, content creation and assessment, but more information can\nbe found in the Staff Guidance document. ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 3": {
+        "rating": 0,
+        "evidence": "n/a",
+        "notes": ""
+      },
+      "Understandability 1": {
+        "rating": 1,
+        "evidence": "Generative AI Policy for Teaching and Learning",
+        "notes": ""
+      },
+      "Understandability 2": {
+        "rating": 1,
+        "evidence": "N/A",
+        "notes": ""
+      },
+      "Understandability 3": {
+        "rating": 0,
+        "evidence": "This policy should be read in conjunction with the following University policies;\n\u2022 Plagiarism and Collusion Policy;\n\u2022 Inclusive Education Policy; and\n\u2022 Blended Learning Policy.\n1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright",
+        "notes": ""
+      },
+      "Actionability 1": {
+        "rating": 0,
+        "evidence": "sdsd",
+        "notes": ""
+      },
+      "Actionability 2": {
+        "rating": 1,
+        "evidence": "dssd",
+        "notes": ""
+      },
+      "Actionability 3": {
+        "rating": 1,
+        "evidence": "sdsdsd",
+        "notes": ""
+      }
+    },
+    "5-point": {
+      "Permited Use": {
+        "rating": 1,
+        "evidence": "sdsdsdsdsd",
+        "notes": ""
+      },
+      "Prohibited Use": {
+        "rating": 2,
+        "evidence": "sdsd dsdsd",
+        "notes": ""
+      },
+      "Academic Integrity": {
+        "rating": 4,
+        "evidence": "sdsdsdsdsdsd sds",
+        "notes": ""
+      },
+      "Transparency": {
+        "rating": 5,
+        "evidence": "sdsdsd",
+        "notes": ""
+      },
+      "Accountability": {
+        "rating": 3,
+        "evidence": "1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright ",
+        "notes": ""
+      },
+      "Risks": {
+        "rating": 4,
+        "evidence": "ds1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright ",
+        "notes": ""
+      },
+      "Copyright and Data Privacy": {
+        "rating": 2,
+        "evidence": "1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright  ",
+        "notes": ""
+      },
+      "Training and Resources": {
+        "rating": 2,
+        "evidence": "sdsd1.4 Staff should complete training in the following areas;\n\u2022 Data protection\n\u2022 Copyright ",
+        "notes": ""
+      }
+    }
+  }
+}

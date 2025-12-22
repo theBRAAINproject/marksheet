@@ -8,6 +8,16 @@ import base64
 # Set page config for wide mode
 st.set_page_config(layout="wide", page_title="Policy Grading", page_icon="📋")
 
+# Add global CSS for a larger badge header
+st.markdown("""
+<style>
+.metric-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.metric-title { font-size: 1.40rem; font-weight: 800; }
+.metric-badge { background: #3B82F6; color: #fff; padding: 10px 18px; border-radius: 999px;
+                font-size: 1.25rem; font-weight: 800; letter-spacing: 0.02em; }
+</style>
+""", unsafe_allow_html=True)
+
 # -----------------------------
 # Load grading protocols
 # -----------------------------
@@ -60,6 +70,10 @@ if "started" not in st.session_state:
     st.session_state.started = False
 if "responses" not in st.session_state:
     st.session_state.responses = {}
+if "show_final_screen" not in st.session_state:
+    st.session_state.show_final_screen = False
+if "confirm_restart" not in st.session_state:
+    st.session_state.confirm_restart = False
 
 # -----------------------------
 # Navigation helpers
@@ -68,6 +82,26 @@ def next_metric():
     protocol = load_protocol_5point() if st.session_state.protocol_type == "5-point" else load_protocol_2point()
     if st.session_state.index < len(protocol) - 1:
         st.session_state.index += 1
+    elif st.session_state.protocol_type == "2-point" and not st.session_state.completed_2point:
+        # Seamlessly transition from 2-point to 5-point grading
+        st.session_state.results_2point = st.session_state.responses.copy()
+        st.session_state.completed_2point = True
+        st.session_state.protocol_type = "5-point"
+        st.session_state.index = 0
+        # Initialize responses for 5-point protocol
+        protocol_5point = load_protocol_5point()
+        st.session_state.responses = {
+            row.Metric: {
+                "rating": None,
+                "evidence": "",
+                "notes": ""
+            }
+            for _, row in protocol_5point.iterrows()
+        }
+        # Clear widget states
+        for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
+            del st.session_state[k]
+        st.rerun()
 
 
 def prev_metric():
@@ -82,7 +116,7 @@ if not st.session_state.started:
     
     # Show which protocol they're about to complete - only for initial start
     if not st.session_state.completed_2point:
-        st.info("📋 Step 1 of 2: You will first complete the 2-point grading protocol.")
+        # st.info("📋 Step 1 of 2: You will first complete the 2-point grading protocol.")
         
         st.session_state.grader_name = st.text_input("Grader's initials", value=st.session_state.grader_name)
         
@@ -120,7 +154,7 @@ if not st.session_state.started:
             st.session_state.document_name.strip()
         )
         
-        if st.button("Start 2-point grading", disabled=start_disabled, type="primary"):
+        if st.button("Start grading", disabled=start_disabled, type="primary"):
             # Initialize responses based on current protocol
             protocol = load_protocol_2point()
             st.session_state.responses = {
@@ -151,6 +185,115 @@ if not st.session_state.started:
     
     st.stop()
 
+
+
+
+# Show final evaluation screen
+if st.session_state.show_final_screen:
+    # st.title("📊 Final Evaluation Summary")
+
+
+    # st.markdown(f"**Grader:** {st.session_state.grader_name}")
+    # st.markdown(f"**Document:** {st.session_state.document_name}")
+    # if st.session_state.tag:
+    #     st.markdown(f"**Tag:** {st.session_state.tag}")
+    # st.markdown(f"**Date:** {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}")
+    
+    # st.markdown("---")
+    
+    # Create merged output with both 2-point and 5-point results
+    output = {
+        "metadata": {
+            "date": datetime.utcnow().isoformat(),
+            "protocols": ["GradingProtocol-2point.xlsx", "GradingProtocol-5point.xlsx"],
+            "grader_name": st.session_state.grader_name,
+            "document_name": st.session_state.document_name,
+            "tag": st.session_state.tag or None,
+        },
+        "results": {
+            "2-point": st.session_state.results_2point,
+            "5-point": st.session_state.responses
+        }
+    }
+    
+
+    
+
+
+    # Save to file
+    os.makedirs("outputs", exist_ok=True)
+    safe = lambda s: ("".join(ch if ch.isalnum() else "_" for ch in s.strip())) or "unnamed"
+    timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    filename_parts = []
+    if st.session_state.tag.strip():
+        filename_parts.append(safe(st.session_state.tag))
+    filename_parts.extend([safe(st.session_state.grader_name), safe(st.session_state.document_name), timestamp])
+    filename = f"outputs/{'_'.join(filename_parts)}.json"
+    
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(output, f, indent=2)
+    
+
+    col1, col2 = st.columns([1,3])
+    with col1:
+        st.markdown("### ✅ Grading Complete!")
+        st.info(f"📁 Evaluation log saved to: `{filename}`")
+        st.download_button(
+            "⬇️ Download Evaluation Log",
+            data=json.dumps(output, indent=2),
+            file_name=os.path.basename(filename),
+            mime="application/json",
+            type="primary",
+            use_container_width=True
+        )
+        if st.button("🔄 Start New Evaluation", type="primary", use_container_width=True):
+            # Reset all session state
+            for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
+                del st.session_state[k]
+            st.session_state.responses = {}
+            st.session_state.results_2point = {}
+            st.session_state.grader_name = ""
+            st.session_state.document_name = ""
+            st.session_state.selected_doc_path = ""
+            st.session_state.tag = ""
+            st.session_state.protocol_type = "2-point"
+            st.session_state.completed_2point = False
+            st.session_state.index = 0
+            st.session_state.started = False
+            st.session_state.show_final_screen = False
+            st.rerun()
+
+        # if st.button("👁️ Review Responses", use_container_width=True):
+        #     st.session_state.show_final_screen = False
+        #     st.rerun()
+    # with col2:
+    #     st.markdown("---")
+    
+    # # Show summary statistics
+    # col1, col2 = st.columns(2)
+    # with col1:
+    #     st.subheader("2-Point Grading Summary")
+    #     if st.session_state.results_2point:
+    #         ratings_2pt = [v["rating"] for v in st.session_state.results_2point.values() if v["rating"] is not None]
+    #         st.metric("Total Metrics", len(st.session_state.results_2point))
+    #         if ratings_2pt:
+    #             st.metric("Average Rating", f"{sum(ratings_2pt)/len(ratings_2pt):.2f}")
+    
+    # with col2:
+    #     st.subheader("5-Point Grading Summary")
+    #     if st.session_state.responses:
+    #         ratings_5pt = [v["rating"] for v in st.session_state.responses.values() if v["rating"] is not None]
+    #         st.metric("Total Metrics", len(st.session_state.responses))
+    #         if ratings_5pt:
+    #             st.metric("Average Rating", f"{sum(ratings_5pt)/len(ratings_5pt):.2f}")
+    
+    # st.markdown("---")
+    
+
+
+    
+    st.stop()
+
 # Create two-column layout for grading interface
 col_grading, col_document = st.columns([1, 1])
 
@@ -161,12 +304,31 @@ with col_grading:
     row = protocol.iloc[st.session_state.index]
     metric = row.Metric
 
-    # Show progress indicator
-    protocol_name = "2-point" if st.session_state.protocol_type == "2-point" else "5-point"
-    st.caption(f"Protocol: {protocol_name} grading")
-    st.subheader(f"Metric {st.session_state.index + 1} of {len(protocol)}: {metric}")
+    # Ensure metric exists in responses (defensive initialization)
+    if metric not in st.session_state.responses:
+        st.session_state.responses[metric] = {
+            "rating": None,
+            "evidence": "",
+            "notes": ""
+        }
 
-    st.markdown(row["Metric Defination"])
+    # Show progress indicator
+    # protocol_name = "2-point" if st.session_state.protocol_type == "2-point" else "5-point"
+    # st.caption(f"Protocol: {protocol_name} grading") 
+    # Replace the previous subheader with a larger badge header
+    st.markdown(
+        f"""
+        <div class="metric-header">
+          <div class="metric-title">Currently Evaluating: </div>
+          <div class="metric-badge">{metric}</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+        #   <div class="metric-title">Metric {st.session_state.index + 1} of {len(protocol)}:</div>
+    with st.container(border=True):
+        st.markdown(f":yellow-badge[What you need to evaluate:] {row['Metric Defination']}")
 
     # Display rating guidance based on protocol type
     if st.session_state.protocol_type == "5-point":
@@ -192,7 +354,7 @@ with col_grading:
 
     guidance_data = {
         "Rating": rating_columns,
-        "Description": [str(row[col]) if pd.notna(row[col]) else "" for col in rating_columns]
+        "What it means": [str(row[col]) if pd.notna(row[col]) else "" for col in rating_columns]
     }
     guidance_df = pd.DataFrame(guidance_data)
     st.dataframe(guidance_df, use_container_width=True, hide_index=True)
@@ -207,13 +369,14 @@ with col_grading:
     stored_rating = st.session_state.responses[metric]["rating"]
     rating_index = rating_values.index(stored_rating) if stored_rating in rating_values else None
 
-    ratingText=f"Select rating for {metric}:"
+    ratingText=(f"After reading the document on the right, select your rating for :blue-badge[{metric}] (see criteria above):") 
     rating = st.selectbox(
         ratingText,
         options=rating_values,
         format_func=lambda x: rating_labels[rating_values.index(x)],
         index=rating_index,
         placeholder="Choose a rating...",
+        # label_visibility="collapsed",
         key=f"rating_{metric}"
     )
 
@@ -224,37 +387,22 @@ with col_grading:
 
     # Evidence text
     st.text_area(
-        f"Paste relevant policy text for {metric} as evidence for you rating",
+        f"Copy and Paste relevant text from the document here as evidence for your rating for :blue-badge[{metric}]. :yellow-badge[Do not include your own interpretation or text.]",
         key=f"evidence_{metric}",
         value=st.session_state.responses[metric]["evidence"],
-        height=160
+        height=120
     )
-
-    st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence_{metric}", "")
-
+    # ratingText=(f"Select rating for :blue-badge[{metric}]:") 
     st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
+
 
     # Navigation
     selected_rating = st.session_state.responses[metric]["rating"]
     evidence_text = (st.session_state.responses[metric]["evidence"] or "").strip()
     next_disabled = (
-        st.session_state.index == len(protocol) - 1
-        or selected_rating is None
+        selected_rating is None
         or evidence_text == ""
     )
-
-    # Change button text based on protocol completion status
-    if st.session_state.protocol_type == "2-point":
-        save_button_text = "Complete 2-point & Continue"
-    else:
-        save_button_text = "Create Final Evaluation Log"
-
-    save_disabled = (
-        st.session_state.index != len(protocol) - 1
-        or selected_rating is None
-        or evidence_text == ""
-    )
-    save_clicked = False
 
     col1, col2, col3 = st.columns([1, 4, 2])
     with col1:
@@ -262,82 +410,63 @@ with col_grading:
     with col2:
         st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
     with col3:
-        save_clicked = st.button(save_button_text, disabled=save_disabled, type="primary")
+        # Show "Create Final Evaluation Log" button only on last metric of 5-point protocol
+        if st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1:
+            if st.button("Create Final Evaluation Log", disabled=next_disabled, type="primary"):
+                st.session_state.show_final_screen = True
+                st.rerun()
+        else:
+            save_clicked = False
+
+
+    #extra notes
+    st.text_area(
+        f"Additional notes (optional). This should be ONLY be used in extreme cases where you need to raise any issues:",
+        key=f"notes_{metric}",
+        value=st.session_state.responses[metric]["notes"],
+        height=50
+    )
+
+    st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence_{metric}", "")
 
     # -----------------------------
-    # Save JSON
+    # Save JSON (removed - now on final screen)
     # -----------------------------
-    if st.session_state.index == len(protocol) - 1:
-        st.markdown("---")
-        if save_clicked:
-            # Check if we need to proceed to 5-point grading
-            if st.session_state.protocol_type == "2-point" and not st.session_state.completed_2point:
-                # Save 2-point results temporarily
-                st.session_state.results_2point = st.session_state.responses.copy()
-                st.session_state.completed_2point = True
-                st.session_state.protocol_type = "5-point"
-                st.session_state.started = False
-                st.session_state.index = 0
-                # Clear widget states
-                for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
-                    del st.session_state[k]
-                st.success("✅ 2-point grading complete!")
-                st.rerun()
-            else:
-                # Create merged output with both 2-point and 5-point results
-                output = {
-                    "metadata": {
-                        "date": datetime.utcnow().isoformat(),
-                        "protocols": ["GradingProtocol-2point.xlsx", "GradingProtocol-5point.xlsx"],
-                        "grader_name": st.session_state.grader_name,
-                        "document_name": st.session_state.document_name,
-                        "tag": st.session_state.tag or None,
-                    },
-                    "results": {
-                        "2-point": st.session_state.results_2point,
-                        "5-point": st.session_state.responses
-                    }
-                }
-                os.makedirs("outputs", exist_ok=True)
-                safe = lambda s: ("".join(ch if ch.isalnum() else "_" for ch in s.strip())) or "unnamed"
-                timestamp = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
-                filename_parts = []
-                if st.session_state.tag.strip():
-                    filename_parts.append(safe(st.session_state.tag))
-                filename_parts.extend([safe(st.session_state.grader_name), safe(st.session_state.document_name), timestamp])
-                filename = f"outputs/{'_'.join(filename_parts)}.json"
-                with open(filename, "w", encoding="utf-8") as f:
-                    json.dump(output, f, indent=2)
-                st.success(f"✅ Complete! Merged log file created: {filename}")
-                st.download_button(
-                    "Download Merged Evaluation Log",
-                    data=json.dumps(output, indent=2),
-                    file_name=filename,
-                    mime="application/json",
-                    type="primary"
-                )
 
     #restart evaluation
     st.markdown("---")
     with st.expander("Session controls", expanded=False):
-        if st.button("🔄 Restart Evaluation"):
-            # clear widget states for metric-bound inputs
-            for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
-                del st.session_state[k]
-            # reset responses to pristine state
-            st.session_state.responses = {}
-            st.session_state.results_2point = {}
-            # reset metadata and navigation
-            st.session_state.grader_name = ""
-            st.session_state.document_name = ""
-            st.session_state.selected_doc_path = ""
-            st.session_state.tag = ""
-            st.session_state.protocol_type = "2-point"
-            st.session_state.completed_2point = False
-            st.session_state.index = 0
-            st.session_state.started = False
-            st.success("Session reset.")
-            st.rerun()
+        if not st.session_state.confirm_restart:
+            if st.button("🔄 Restart Evaluation"):
+                st.session_state.confirm_restart = True
+                st.rerun()
+        else:
+            st.warning("⚠️ **Warning:** This will delete all your current progress and cannot be undone!")
+            col_confirm, col_cancel = st.columns(2)
+            with col_confirm:
+                if st.button("✅ Yes, restart", type="primary", use_container_width=True, key="confirm_restart_btn"):
+                    # clear widget states for metric-bound inputs
+                    for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
+                        del st.session_state[k]
+                    # reset responses to pristine state
+                    st.session_state.responses = {}
+                    st.session_state.results_2point = {}
+                    # reset metadata and navigation
+                    st.session_state.grader_name = ""
+                    st.session_state.document_name = ""
+                    st.session_state.selected_doc_path = ""
+                    st.session_state.tag = ""
+                    st.session_state.protocol_type = "2-point"
+                    st.session_state.completed_2point = False
+                    st.session_state.index = 0
+                    st.session_state.started = False
+                    st.session_state.show_final_screen = False
+                    st.session_state.confirm_restart = False
+                    st.rerun()
+            with col_cancel:
+                if st.button("❌ Cancel", use_container_width=True, key="cancel_restart_btn"):
+                    st.session_state.confirm_restart = False
+                    st.rerun()
 
 # Document viewer column
 with col_document:
