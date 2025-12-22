@@ -209,7 +209,8 @@ if st.session_state.index == len(protocol) - 1:
             "Download Evaluation Log",
             data=json.dumps(output, indent=2),
             file_name=filename,
-            mime="application/json"
+            mime="application/json",
+            type="primary"
         )
 
 
