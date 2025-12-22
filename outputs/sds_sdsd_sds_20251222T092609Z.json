@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "date": "2025-12-22T09:26:09.538844",
+    "protocol": "GradingProtocol-2-point.xlsx",
+    "grader_name": "sdsd",
+    "document_name": "sds",
+    "tag": "sds"
+  },
+  "results": {
+    "Relevance": {
+      "rating": 1,
+      "evidence": "option. ",
+      "notes": ""
+    },
+    "Stakeholder Coverage 1": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Stakeholder Coverage 2": {
+      "rating": 1,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Stakeholder Coverage 3": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Understandability 1": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Understandability 2": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Understandability 3": {
+      "rating": 0,
+      "evidence": "sdsdsd",
+      "notes": ""
+    },
+    "Actionability 1": {
+      "rating": 0,
+      "evidence": "sdsd",
+      "notes": ""
+    },
+    "Actionability 2": {
+      "rating": 0,
+      "evidence": "sdsdd",
+      "notes": ""
+    },
+    "Actionability 3": {
+      "rating": 0,
+      "evidence": "sdsdsd",
+      "notes": ""
+    }
+  }
+}
