@@ -83,7 +83,7 @@ with st.expander("Rating guidance (0–5)", expanded=False):
     st.markdown("**1 — Problematic**")
     st.markdown(row["Rating 1"])
     st.markdown("**0 — N/A or Absent**")
-    st.markdown(row["Rating 0, (N/A or absent)"])
+    st.markdown(row["Rating 0 (N/A or absent)"])
 
 # Rating selector
 rating_options = [5, 4, 3, 2, 1, 0]
