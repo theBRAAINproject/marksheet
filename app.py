@@ -207,8 +207,9 @@ with col_grading:
     stored_rating = st.session_state.responses[metric]["rating"]
     rating_index = rating_values.index(stored_rating) if stored_rating in rating_values else None
 
+    ratingText=f"Select rating for {metric}:"
     rating = st.selectbox(
-        "Select rating",
+        ratingText,
         options=rating_values,
         format_func=lambda x: rating_labels[rating_values.index(x)],
         index=rating_index,
@@ -223,7 +224,7 @@ with col_grading:
 
     # Evidence text
     st.text_area(
-        "Paste relevant policy text (editable)",
+        f"Paste relevant policy text for {metric} as evidence for you rating",
         key=f"evidence_{metric}",
         value=st.session_state.responses[metric]["evidence"],
         height=160
