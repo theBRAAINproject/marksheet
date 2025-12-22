@@ -2,6 +2,7 @@ import streamlit as st
 import json
 import pandas as pd
 from datetime import datetime
+import os
 
 # -----------------------------
 # Load grading protocol (5-point + 0)
@@ -180,6 +181,11 @@ if st.session_state.index == len(protocol) - 1:
             },
             "results": st.session_state.responses
         }
+        os.makedirs("outputs", exist_ok=True)
+        filename = f"outputs/genai_policy_grading_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.json"
+        with open(filename, "w", encoding="utf-8") as f:
+            json.dump(output, f, indent=2)
+
         st.download_button(
             "Download JSON",
             data=json.dumps(output, indent=2),
