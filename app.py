@@ -112,51 +112,67 @@ def prev_metric():
 # UI
 # -----------------------------
 if not st.session_state.started:
-    st.title("Grading Setup")
-    
-    # Show which protocol they're about to complete - only for initial start
-    if not st.session_state.completed_2point:
-        # st.info("📋 Step 1 of 2: You will first complete the 2-point grading protocol.")
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        st.title("Grading Setup")
         
-        st.session_state.grader_name = st.text_input("Grader's initials", value=st.session_state.grader_name)
-        
-        # Check if docs folder exists and get available files
-        docs_folder = "docs"
-        available_docs = []
-        if os.path.exists(docs_folder):
-            available_docs = [f for f in os.listdir(docs_folder) if os.path.isfile(os.path.join(docs_folder, f))]
-            available_docs.sort()
-        
-        if available_docs:
-            # Only show file selector - no manual entry option
-            selected_doc = st.selectbox(
-                "Select document",
-                options=available_docs,
-                index=None,
-                placeholder="Choose a document..."
-            )
-            if selected_doc:
-                # Remove file extension for document name
-                st.session_state.document_name = os.path.splitext(selected_doc)[0]
-                st.session_state.selected_doc_path = os.path.join(docs_folder, selected_doc)
+        # Show which protocol they're about to complete - only for initial start
+        if not st.session_state.completed_2point:
+            # st.info("📋 Step 1 of 2: You will first complete the 2-point grading protocol.")
+            
+            st.session_state.grader_name = st.text_input("Grader's initials", value=st.session_state.grader_name)
+            
+            # Check if docs folder exists and get available files
+            docs_folder = "docs"
+            available_docs = []
+            if os.path.exists(docs_folder):
+                available_docs = [f for f in os.listdir(docs_folder) if os.path.isfile(os.path.join(docs_folder, f))]
+                available_docs.sort()
+            
+            if available_docs:
+                # Only show file selector - no manual entry option
+                selected_doc = st.selectbox(
+                    "Select document",
+                    options=available_docs,
+                    index=None,
+                    placeholder="Choose a document..."
+                )
+                if selected_doc:
+                    # Remove file extension for document name
+                    st.session_state.document_name = os.path.splitext(selected_doc)[0]
+                    st.session_state.selected_doc_path = os.path.join(docs_folder, selected_doc)
+                else:
+                    st.session_state.document_name = ""
+                    st.session_state.selected_doc_path = ""
             else:
+                st.error(f"❌ No documents found in '{docs_folder}' folder. Please add documents to proceed.")
                 st.session_state.document_name = ""
                 st.session_state.selected_doc_path = ""
+            
+            st.session_state.tag = st.text_input("Tag (optional)", value=st.session_state.tag)
+            
+            start_disabled = not (
+                st.session_state.grader_name.strip() and 
+                st.session_state.document_name.strip()
+            )
+            
+            if st.button("Start grading", disabled=start_disabled, type="primary"):
+                # Initialize responses based on current protocol
+                protocol = load_protocol_2point()
+                st.session_state.responses = {
+                    row.Metric: {
+                        "rating": None,
+                        "evidence": "",
+                        "notes": ""
+                    }
+                    for _, row in protocol.iterrows()
+                }
+                st.session_state.index = 0
+                st.session_state.started = True
+                st.rerun()
         else:
-            st.error(f"❌ No documents found in '{docs_folder}' folder. Please add documents to proceed.")
-            st.session_state.document_name = ""
-            st.session_state.selected_doc_path = ""
-        
-        st.session_state.tag = st.text_input("Tag (optional)", value=st.session_state.tag)
-        
-        start_disabled = not (
-            st.session_state.grader_name.strip() and 
-            st.session_state.document_name.strip()
-        )
-        
-        if st.button("Start grading", disabled=start_disabled, type="primary"):
-            # Initialize responses based on current protocol
-            protocol = load_protocol_2point()
+            # Automatically initialize 5-point grading without showing setup screen
+            protocol = load_protocol_5point()
             st.session_state.responses = {
                 row.Metric: {
                     "rating": None,
@@ -168,20 +184,6 @@ if not st.session_state.started:
             st.session_state.index = 0
             st.session_state.started = True
             st.rerun()
-    else:
-        # Automatically initialize 5-point grading without showing setup screen
-        protocol = load_protocol_5point()
-        st.session_state.responses = {
-            row.Metric: {
-                "rating": None,
-                "evidence": "",
-                "notes": ""
-            }
-            for _, row in protocol.iterrows()
-        }
-        st.session_state.index = 0
-        st.session_state.started = True
-        st.rerun()
     
     st.stop()
 
