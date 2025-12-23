@@ -475,24 +475,18 @@ with col_grading:
 # Document viewer column
 with col_document:
     # st.subheader("📄 Document Viewer")
-    wrapper_height = 800
-    embed_height = 1400
+    viewer_height = 900
     if st.session_state.selected_doc_path and os.path.exists(st.session_state.selected_doc_path):
         if st.session_state.selected_doc_path.lower().endswith('.pdf'):
             with st.container(border=True):
                 with open(st.session_state.selected_doc_path, "rb") as pdf_file:
-                    pdf_b64 = base64.b64encode(pdf_file.read()).decode("utf-8")
-                st.markdown(
-                    f"""
-                    <div style="height:{wrapper_height}px; overflow-y:auto; padding:0; margin:0;">
-                      <embed
-                        src="data:application/pdf;base64,{pdf_b64}#view=FitH&toolbar=0&navpanes=0"
-                        type="application/pdf"
-                        style="width:100%; height:{embed_height}px; border:none; margin:0; padding:0;"
-                      />
-                    </div>
-                    """,
-                    unsafe_allow_html=True,
+                    binary_data = pdf_file.read()
+                pdf_viewer(
+                    input=binary_data,
+                    width=700,
+                    height=viewer_height,
+                    render_text=True,
+                    viewer_align="left",
                 )
         else:
             st.info(f"📎 Selected document: {st.session_state.document_name}")
