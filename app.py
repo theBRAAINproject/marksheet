@@ -4,6 +4,7 @@ import pandas as pd
 from datetime import datetime
 import os
 import base64
+from streamlit_pdf_viewer import pdf_viewer
 
 # Set page config for wide mode
 st.set_page_config(layout="wide", page_title="Policy Grading", page_icon="📋")
@@ -476,13 +477,16 @@ with col_document:
     # st.subheader("📄 Document Viewer")
     
     if st.session_state.selected_doc_path and os.path.exists(st.session_state.selected_doc_path):
-        # Check if the file is a PDF
         if st.session_state.selected_doc_path.lower().endswith('.pdf'):
-            with open(st.session_state.selected_doc_path, "rb") as pdf_file:
-                pdf_bytes = pdf_file.read()
-                base64_pdf = base64.b64encode(pdf_bytes).decode('utf-8')
-                pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}#view=FitH" width="100%" height="800" style="border: none;"></iframe>'
-                st.markdown(pdf_display, unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown(
+                    "<div style='height:800px; overflow-y:auto; border:1px solid #e5e7eb; padding:8px; border-radius:8px;'>",
+                    unsafe_allow_html=True,
+                )
+                with open(st.session_state.selected_doc_path, "rb") as pdf_file:
+                    binary_data = pdf_file.read()
+                    pdf_viewer(input=binary_data, width=700)
+                st.markdown("</div>", unsafe_allow_html=True)
         else:
             st.info(f"📎 Selected document: {st.session_state.document_name}")
             st.caption("PDF preview is only available for PDF files.")
