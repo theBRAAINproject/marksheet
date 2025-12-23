@@ -483,7 +483,7 @@ with col_document:
                     binary_data = pdf_file.read()
                 pdf_viewer(
                     input=binary_data,
-                    width=700,
+                    width=610,
                     height=viewer_height,
                     render_text=True,
                     viewer_align="left",
