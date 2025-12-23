@@ -330,7 +330,8 @@ with col_grading:
 
         #   <div class="metric-title">Metric {st.session_state.index + 1} of {len(protocol)}:</div>
     with st.container(border=True):
-        st.markdown(f":yellow-badge[What you need to evaluate:] {row['Metric Defination']}")
+        # st.markdown(f":yellow-badge[What are you evaluating]: The document on the right-hand side")
+        st.markdown(f":yellow-badge[You need to evaluate if the document on the right satisfies the following:] {row['Metric Defination']}")
 
     # Display rating guidance based on protocol type
     if st.session_state.protocol_type == "5-point":
