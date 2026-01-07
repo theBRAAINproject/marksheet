@@ -419,10 +419,13 @@ with col_grading:
 
     col1, col2, col3 = st.columns([1, 4, 2])
     with col1:
-        st.button("⬅ Back", on_click=prev_metric, disabled=st.session_state.index == 0)
+        if st.button("⬅ Back", disabled=st.session_state.index == 0):
+            st.session_state.index -= 1
+            st.rerun()
     with col2:
         if not (st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1):
-            st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
+            if st.button("Next ➡", disabled=next_disabled):
+                next_metric()
             if next_disabled and missing_parts:
                 numbered_missing = ", ".join([f"{i+1}) {item}" for i, item in enumerate(missing_parts)])
                 st.markdown(f":orange-badge[Things to enter: {numbered_missing}.]")
