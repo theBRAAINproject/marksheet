@@ -424,7 +424,7 @@ with col_grading:
         if not (st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1):
             st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
             if next_disabled and missing_parts:
-                st.markdown(f":orange-badge[Things you need to enter before you can move ahead: {', '.join(missing_parts)}.]")
+                st.markdown(f":orange-badge[Things to enter: {', '.join(missing_parts)}.]")
         else:
             st.write("")  # placeholder to keep layout aligned
     with col3:
