@@ -249,7 +249,11 @@ if st.session_state.show_final_screen:
             type="primary",
             use_container_width=True
         )
-        if st.button("🔄 Start New Evaluation", type="primary", use_container_width=True):
+        # Allow returning to the grading interface to change previous answers
+        if st.button("⬅️ Review or Change Responses", use_container_width=True):
+            st.session_state.show_final_screen = False
+            st.rerun()
+        if st.button("🔄 Start New Evaluation", use_container_width=True):
             # Reset all session state
             for k in [k for k in list(st.session_state.keys()) if k.startswith(("evidence_", "notes_", "rating_"))]:
                 del st.session_state[k]
@@ -430,7 +434,8 @@ with col_grading:
         value=st.session_state.responses[metric]["notes"],
         height=50
     )
-
+    # Persist notes input so navigating back preserves changes
+    st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
     st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence_{metric}", "")
 
     # -----------------------------
