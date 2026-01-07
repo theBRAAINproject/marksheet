@@ -394,7 +394,7 @@ with col_grading:
         st.session_state.responses[metric]["rating"] = None
 
     # Evidence text
-    st.text_area(
+    st.text_input(
         f"Copy and Paste relevant text from the document here as evidence for your rating for :blue-badge[{metric}]. :yellow-badge[If there is no evidence to provide, just write N/A. Do not include any other text or your own interpretation.]",
         key=f"evidence_{metric}",
         value=st.session_state.responses[metric]["evidence"],
