@@ -413,9 +413,9 @@ with col_grading:
     )
     missing_parts = []
     if selected_rating is None:
-        missing_parts.append("a rating")
+        missing_parts.append("your rating")
     if evidence_text == "":
-        missing_parts.append("evidence")
+        missing_parts.append("evidence from document")
 
     col1, col2, col3 = st.columns([1, 4, 2])
     with col1:
