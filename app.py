@@ -415,7 +415,7 @@ with col_grading:
     if selected_rating is None:
         missing_parts.append("your rating")
     if evidence_text == "":
-        missing_parts.append("evidence from document")
+        missing_parts.append("evidence")
 
     col1, col2, col3 = st.columns([1, 4, 2])
     with col1:
@@ -424,7 +424,7 @@ with col_grading:
         if not (st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1):
             st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
             if next_disabled and missing_parts:
-                numbered_missing = " ".join([f"{i+1}) {item}" for i, item in enumerate(missing_parts)])
+                numbered_missing = ", ".join([f"{i+1}) {item}" for i, item in enumerate(missing_parts)])
                 st.markdown(f":orange-badge[Things to enter: {numbered_missing}.]")
         else:
             st.write("")  # placeholder to keep layout aligned
