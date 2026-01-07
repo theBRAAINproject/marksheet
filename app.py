@@ -400,6 +400,7 @@ with col_grading:
         value=st.session_state.responses[metric]["evidence"],
         height=120
     )
+    st.caption("💡 Tip: Press Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to confirm your input.")
     # ratingText=(f"Select rating for :blue-badge[{metric}]:") 
     st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
 
@@ -444,6 +445,7 @@ with col_grading:
         value=st.session_state.responses[metric]["notes"],
         height=50
     )
+    st.caption("💡 Tip: Press Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to confirm your input.")
     # Persist notes input so navigating back preserves changes
     st.session_state.responses[metric]["notes"] = st.session_state.get(f"notes_{metric}", "")
     st.session_state.responses[metric]["evidence"] = st.session_state.get(f"evidence_{metric}", "")
