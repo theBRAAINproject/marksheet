@@ -411,14 +411,23 @@ with col_grading:
         selected_rating is None
         or evidence_text == ""
     )
+    missing_parts = []
+    if selected_rating is None:
+        missing_parts.append("a rating")
+    if evidence_text == "":
+        missing_parts.append("evidence")
 
     col1, col2, col3 = st.columns([1, 4, 2])
     with col1:
         st.button("⬅ Back", on_click=prev_metric, disabled=st.session_state.index == 0)
     with col2:
-        st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
+        if not (st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1):
+            st.button("Next ➡", on_click=next_metric, disabled=next_disabled)
+            if next_disabled and missing_parts:
+                st.markdown(f":orange[Missing: {', '.join(missing_parts)}.]")
+        else:
+            st.write("")  # placeholder to keep layout aligned
     with col3:
-        # Show "Create Final Evaluation Log" button only on last metric of 5-point protocol
         if st.session_state.protocol_type == "5-point" and st.session_state.index == len(protocol) - 1:
             if st.button("Create Final Evaluation Log", disabled=next_disabled, type="primary"):
                 st.session_state.show_final_screen = True

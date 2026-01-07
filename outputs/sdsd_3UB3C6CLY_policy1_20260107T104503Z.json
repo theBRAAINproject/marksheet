@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "date": "2026-01-07T10:45:03.685797",
+    "protocols": [
+      "GradingProtocol-2point.xlsx",
+      "GradingProtocol-5point.xlsx"
+    ],
+    "grader_name": "3UB3C6CLY",
+    "document_name": "policy1",
+    "tag": "sdsd"
+  },
+  "results": {
+    "2-point": {
+      "Relevance": {
+        "rating": 1,
+        "evidence": "ds ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 1": {
+        "rating": 1,
+        "evidence": "sds  \n\n",
+        "notes": ""
+      },
+      "Stakeholder Coverage 2": {
+        "rating": 1,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Stakeholder Coverage 3": {
+        "rating": 1,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Understandability 1": {
+        "rating": 1,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Understandability 2": {
+        "rating": 0,
+        "evidence": "sdsd \n",
+        "notes": ""
+      },
+      "Understandability 3": {
+        "rating": 0,
+        "evidence": "sd sdsd",
+        "notes": ""
+      },
+      "Actionability 1": {
+        "rating": 1,
+        "evidence": "sdsddsd ",
+        "notes": ""
+      },
+      "Actionability 2": {
+        "rating": 1,
+        "evidence": "sdsd  ",
+        "notes": ""
+      },
+      "Actionability 3": {
+        "rating": 1,
+        "evidence": "sdsd\n",
+        "notes": ""
+      }
+    },
+    "5-point": {
+      "Permited Use": {
+        "rating": 4,
+        "evidence": "sdsdsd \n",
+        "notes": ""
+      },
+      "Prohibited Use": {
+        "rating": 4,
+        "evidence": "sdsd\n",
+        "notes": ""
+      },
+      "Academic Integrity": {
+        "rating": 4,
+        "evidence": "sdsdsdsd ",
+        "notes": ""
+      },
+      "Transparency": {
+        "rating": 3,
+        "evidence": "xxdd ",
+        "notes": ""
+      },
+      "Accountability": {
+        "rating": 4,
+        "evidence": "sdsd sd  \n\n",
+        "notes": ""
+      },
+      "Risks": {
+        "rating": 3,
+        "evidence": "dsd.  ",
+        "notes": ""
+      },
+      "Copyright and Data Privacy": {
+        "rating": 4,
+        "evidence": "sdsd ",
+        "notes": ""
+      },
+      "Training and Resources": {
+        "rating": 4,
+        "evidence": "sdsd   \n\n\n",
+        "notes": ""
+      }
+    }
+  }
+}
