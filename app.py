@@ -397,8 +397,8 @@ with col_grading:
     st.text_input(
         f"Copy and Paste relevant text from the document here as evidence for your rating for :blue-badge[{metric}]. :yellow-badge[If there is no evidence to provide, just write N/A. Do not include any other text or your own interpretation.]",
         key=f"evidence_{metric}",
-        value=st.session_state.responses[metric]["evidence"],
-        height=120
+        value=st.session_state.responses[metric]["evidence"]
+        # height=120
     )
     st.caption("💡 Tip: Press Cmd+Enter (Mac) or Ctrl+Enter (Windows/Linux) to confirm your input.")
     # ratingText=(f"Select rating for :blue-badge[{metric}]:") 
